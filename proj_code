@@ -1,0 +1,38 @@
+// Pin Definitions
+const int sensorPin = A0;     // MQ-3 analog output
+const int relayPin = 8;       // Relay control pin
+const int buzzerPin = 9;      // Optional buzzer or LED
+
+// Threshold (adjust this based on testing)
+const int alcoholThreshold = 300; // Example value, calibrate for your sensor
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(relayPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
+  
+  // Initially allow ignition
+  digitalWrite(relayPin, HIGH); // Relay HIGH means circuit closed -> ignition allowed
+  digitalWrite(buzzerPin, LOW);
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);
+  Serial.print("Alcohol Sensor Value: ");
+  Serial.println(sensorValue);
+
+  if (sensorValue > alcoholThreshold) {
+    // Alcohol detected above threshold -> lock engine
+    digitalWrite(relayPin, LOW);   // Relay open -> ignition disabled
+    digitalWrite(buzzerPin, HIGH); // Sound buzzer or turn on LED
+    Serial.println("ALCOHOL DETECTED! ENGINE LOCKED.");
+  } else {
+    // Safe -> allow ignition
+    digitalWrite(relayPin, HIGH);  // Relay closed -> ignition allowed
+    digitalWrite(buzzerPin, LOW);  // Buzzer/LED OFF
+    Serial.println("Safe to drive.");
+  }
+
+  delay(1000); // 1 second delay
+}
+
