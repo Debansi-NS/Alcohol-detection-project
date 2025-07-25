@@ -1,0 +1,24 @@
+[ Start ]
+   |
+   v
+[ Power ON ]
+   |
+   v
+[ MQ-3 Sensor Reads Alcohol Level ]
+   |
+   v
+[ Arduino Reads Sensor Value ]
+   |
+   v
+[ Is Value > Threshold? ] ---- No ----> [ Allow Ignition (Relay Closed) ]
+          |
+         Yes
+          |
+          v
+[ Lock Ignition (Relay Open) ]
+          |
+          v
+[ Sound Buzzer/LED Alert ]
+          |
+          v
+[ Wait & Retry ]
